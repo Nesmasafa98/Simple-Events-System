@@ -1,18 +1,35 @@
 const {validationResult} = require("express-validator");
+const Event = require("./../Models/eventModel");
 
-module.exports.getEvents = (req,res)=>{
+module.exports.getEvents = (req,res,next)=>{
 
-    res.status(200).json({message:"Events List"});
+    events.find({})
+          .then((data)=>{
+
+            res.status(200).json({data});
+
+          })
+          .catch((error)=>{
+              next(error);
+          })
 
 }
 
-module.exports.getEventById = (req,res)=>{
+module.exports.getEventById = (req,res,next)=>{
 
-    res.status(200).json({message:"Event By ID", id: req.params["id"]});
+    events.find({_id:req.body.id})
+          .then((data)=>{
+
+            res.status(200).json({data});
+
+          })
+          .catch((error)=>{
+              next(error);
+          })
     
 }
 
-module.exports.createEvent = (req,res)=>{
+module.exports.createEvent = (req,res,next)=>{
     //validation
     let result = validationResult(req);
     if(!result.isEmpty())
@@ -23,20 +40,70 @@ module.exports.createEvent = (req,res)=>{
         throw error;
     }
     //response 
-    res.status(201).json({message:"Event Added"});
+    const event = new Event({
+        _id : req.body.id,
+        title : req.body.title,
+        eventDate : req.body.date,
+        mainSpeaker : req.body.mainSpeaker ,
+        otherSpeakers : req.body.otherSpeakers ,
+        students : req.body.students
+    })
+
+    event.save()
+         .then((data)=>{
+
+            res.status(201).json({message:"Event Added",data});
+
+         })
+         .catch((error)=>{
+             next(error);
+         })
 
 }
 
 
 module.exports.updateEvent = (req,res)=>{
 
-    res.status(200).json({message:"Event Updated"});
+    Event.updateOne({_id:req.body.id},{
+        $set:{
+            _id : req.body.id,
+            title : req.body.title,
+            eventDate : req.body.date,
+            mainSpeaker : req.body.mainSpeaker ,
+            otherSpeakers : req.body.otherSpeakers,
+            students : req.body.students
+        }
+        })
+           .then((data)=>{
+
+                if(data.matchedCount == 0)
+                {
+                    throw new Error("Speaker Not Found");
+                }
+                res.status(200).json({message:"Speaker Updated",data});
+
+           })
+           .catch((error)=>{
+               next(error);
+           })
 
 }
 
 
 module.exports.deleteEvent = (req,res)=>{
 
-    res.status(200).json({message:"Event Deleted"});
+    Event.deleteOne({_id:req.body.id})
+           .then((data)=>{
+
+            if(data.matchedCount == 0)
+            {
+                throw new Error("Event Not Found");
+            }
+            res.status(200).json({message:"Event Deleted",data});
+
+           })
+           .catch((error)=>{
+               next(error);
+           })
     
 }

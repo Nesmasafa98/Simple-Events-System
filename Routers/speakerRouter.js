@@ -3,6 +3,7 @@ const router = express.Router();
 const controller = require("./../Controllers/speakerController");
 const validator = require("./../validator");
 
+
 router.route("/speakers").
 get(controller.getSpeakers).
 post([

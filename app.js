@@ -1,18 +1,30 @@
 //NPM Packages
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
-//Built Packages
+//Custom Packages
 const studentRouter = require("./Routers/studentRouter");
 const speakerRouter = require("./Routers/speakerRouter");
 const eventRouter = require("./Routers/eventRouter");
 
+//variables
+const port = process.env.PORT || 8080;
 
-//Server Setup
+//Server and DB Setup
 const server = express();
-server.listen(process.env.PORT || 8080, ()=>{
-    console.log("Server is Listening");
-});
+mongoose.connect("mongodb://localhost:27017/SimpleEventsSystemDB")
+        .then(()=>{
+
+            console.log("DB connected successfully");
+            server.listen(port, ()=>{
+
+                console.log("Server is listening");
+
+            });
+
+        })
+        .catch(error=>console.log("DB connection failed"))
 
 //MiddleWares
 

@@ -1,13 +1,38 @@
 const {validationResult} = require("express-validator");
+const Student = require("./../Models/studentModel");
 
-module.exports.getStudents = (req,res)=>{
+module.exports.getStudents = (req,res,next)=>{
 
-    res.status(200).json({message:"Students List"});
+    Student.find({})
+           .then((data)=>{
+
+            res.status(200).json({data});
+
+           })
+           .catch((error)=>{
+               next(error);
+           })
 
 }
 
 
-module.exports.getStudentById = (req,res)=>{
+module.exports.getStudentById = (req,res,next)=>{
+
+    Student.find({_id:req.body.id})
+           .then((data)=>{
+
+                res.status(200).json({data});
+
+           })
+           .catch((error)=>{
+               next(error);
+           })
+   
+
+}
+
+
+module.exports.createStudent = (req,res,next)=>{
 
     //validation
     let result = validationResult(req);
@@ -18,27 +43,65 @@ module.exports.getStudentById = (req,res)=>{
         throw error;
     }
     //response
-    res.status(200).json({message:"Student By ID"});
+    const student = new Student({
+        _id : req.body.id,
+        username : req.body.username,
+        email : req.body.email,
+        password : req.body.password
+    });
+
+    student.save()
+           .then((data)=>{
+
+                res.status(201).json({message:"Student Created",data});
+
+           })
+           .catch((error)=>{
+               next(error);
+           })
 
 }
 
 
-module.exports.createStudent = (req,res)=>{
+module.exports.updateStudent = (req,res,next)=>{
 
-    res.status(201).json({message:"Student Created"});
+    Student.updateOne({_id:req.body.id},{
+        $set:{
+            _id : req.body.id,
+            email : req.body.email,
+            username : req.body.username,
+            password : req.body.password
+        }
+    })
+           .then((data)=>{
+               if(data.matchedCount == 0)
+               {
+                   throw new Error("Student Not Found");
+               }
+
+               res.status(200).json({message:"Student Updated"},data);
+           })
+           .catch((error)=>{
+               next(error);
+           })
 
 }
 
 
-module.exports.updateStudent = (req,res)=>{
+module.exports.deleteStudent = (req,res,next)=>{
 
-    res.status(200).json({message:"Student Updated"});
+    Student.deleteOne({_id:req.body.id})
+           .then((data)=>{
 
-}
+            if(data.matchedCount == 0)
+            {
+                throw new Error("Student Not Found");
+            }
+            res.status(200).json({message:"Student Deleted",data});
 
-
-module.exports.deleteStudent = (req,res)=>{
-
-    res.status(200).json({message:"Student Deleted"});
+           })
+           .catch((error)=>{
+               next(error);
+           })
     
 }
