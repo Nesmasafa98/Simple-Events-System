@@ -6,15 +6,22 @@ const validator = require("./../validator");
 router.route("/students").
 get(controller.getStudents).
 post([
+        validator.validateID,
         validator.validateEmail,
         validator.validateUserName,
         validator.validatePassword
     ],
     controller.createStudent).
-put(controller.updateStudent).
-delete(controller.deleteStudent)
+put([
+    validator.validateID,
+    validator.validateEmail,
+    validator.validateUserName,
+    validator.validatePassword
+    ],
+    controller.updateStudent).
+delete(validator.validateID, controller.deleteStudent)
 
-router.get("/students/:id",controller.getStudentById);
+router.get("/students/:id", validator.validateID, controller.getStudentById);
 
 
 module.exports = router;

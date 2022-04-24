@@ -15,7 +15,15 @@ post([
         validator.validateBuilding
     ]
     ,controller.createSpeaker).
-put(controller.updateSpeaker).
+put([
+    validator.validateEmail,
+    validator.validateUserName,
+    validator.validatePassword,
+    validator.validateCity,
+    validator.validateStreet,
+    validator.validateBuilding
+    ]
+    ,controller.updateSpeaker).
 delete(controller.deleteSpeaker)
 
 router.get("/speakers/:id",controller.getSpeakerById);
