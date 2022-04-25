@@ -1,6 +1,8 @@
 const {body,param,query} = require("express-validator");
+const Student = require("./Models/studentModel");
+const Speaker = require("./Models/speakerModel");
 
-module.exports.validateEmail = body("email").isEmail().withMessage("Incorrect E-mail");
+module.exports.validateEmail = body("email").isEmail().withMessage("Invalid E-mail");
 
 module.exports.validateUserName = body("username").isLength({min: 8}).withMessage("Username should be atleast 8 characters long").isAlphanumeric().withMessage("Only alphanumeric characters allowed");
 
@@ -16,4 +18,28 @@ module.exports.validateTitle = body("title").isAlpha().withMessage("Title must c
 
 module.exports.validateDate = body("date").isDate().withMessage("Invalid date");
 
-module.exports.validateID = body("id").isNumeric().withMessage("ID must be numeric");
+module.exports.validateID = body("id")||param("id").isNumeric().withMessage("ID must be numeric");
+
+module.exports.validateStudentEmailExists = body("email").custom((value,{req}) => {
+
+    return Student.findOne({ email: value })
+        .then((data) => {
+            
+            if (data !== null && req.body.oldEmail !== value) {
+                
+                throw new Error("Email already in use.");
+
+            }
+        })
+});
+
+module.exports.validateSpeakerEmailExists = body("email").custom((value) => {
+
+    return Speaker.findOne({ email: value })
+        .then((data) => {
+            if (data !== null && req.body.oldEmail !== value) {
+                throw new Error("Email already in use.");
+            }
+        })
+});
+

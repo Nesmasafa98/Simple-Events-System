@@ -2,12 +2,15 @@ const express = require("express");
 const router = express.Router();
 const controller = require("./../Controllers/speakerController");
 const validator = require("./../validator");
+const authMW = require("./../MiddleWares/authMiddleWare");
 
+router.use(authMW);
 
 router.route("/speakers").
 get(controller.getSpeakers).
 post([
         validator.validateEmail,
+        validator.validateSpeakerEmailExists,
         validator.validateUserName,
         validator.validatePassword,
         validator.validateCity,
@@ -17,6 +20,7 @@ post([
     ,controller.createSpeaker).
 put([
     validator.validateEmail,
+    validator.validateSpeakerEmailExists,
     validator.validateUserName,
     validator.validatePassword,
     validator.validateCity,

@@ -2,17 +2,20 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 //Custom Packages
 const studentRouter = require("./Routers/studentRouter");
 const speakerRouter = require("./Routers/speakerRouter");
 const eventRouter = require("./Routers/eventRouter");
+const authRouter = require("./Routers/authRouter");
 
 //variables
 const port = process.env.PORT || 8080;
 
 //Server and DB Setup
 const server = express();
+server.use(cors());
 mongoose.connect("mongodb://localhost:27017/SimpleEventsSystemDB")
         .then(()=>{
 
@@ -41,6 +44,9 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended: false}));
 
 //Routers
+
+//Authentication Router
+server.use(authRouter);
 
 //Student Router
 server.use(studentRouter);

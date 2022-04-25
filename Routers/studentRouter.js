@@ -2,19 +2,22 @@ const express = require("express");
 const router = express.Router();
 const controller = require("./../Controllers/studentController");
 const validator = require("./../validator");
+const authMW = require("./../MiddleWares/authMiddleWare");
+
+router.use(authMW);
 
 router.route("/students").
 get(controller.getStudents).
 post([
-        validator.validateID,
         validator.validateEmail,
+        validator.validateStudentEmailExists,
         validator.validateUserName,
         validator.validatePassword
     ],
     controller.createStudent).
 put([
-    validator.validateID,
     validator.validateEmail,
+    validator.validateStudentEmailExists,
     validator.validateUserName,
     validator.validatePassword
     ],

@@ -18,6 +18,15 @@ module.exports.getStudents = (req,res,next)=>{
 
 module.exports.getStudentById = (req,res,next)=>{
 
+    //validation
+    let result = validationResult(req);
+    if (!result.isEmpty()) {
+        let message = result.array().reduce((current, error) => current + error.msg + " ", " ");
+        let error = new Error(message);
+        error.status = 422;
+        throw error;
+    }
+    //response
     Student.find({_id:req.body.id})
            .then((data)=>{
 
@@ -65,6 +74,15 @@ module.exports.createStudent = (req,res,next)=>{
 
 module.exports.updateStudent = (req,res,next)=>{
 
+    //validation
+    let result = validationResult(req);
+    if (!result.isEmpty()) {
+        let message = result.array().reduce((current, error) => current + error.msg + " ", " ");
+        let error = new Error(message);
+        error.status = 422;
+        throw error;
+    }
+    //response
     Student.updateOne({_id:req.body.id},{
         $set:{
             _id : req.body.id,
@@ -79,7 +97,7 @@ module.exports.updateStudent = (req,res,next)=>{
                    throw new Error("Student Not Found");
                }
 
-               res.status(200).json({message:"Student Updated"},data);
+               res.status(200).json({message:"Student Updated",data});
            })
            .catch((error)=>{
                next(error);
@@ -90,6 +108,15 @@ module.exports.updateStudent = (req,res,next)=>{
 
 module.exports.deleteStudent = (req,res,next)=>{
 
+    //validation
+    let result = validationResult(req);
+    if (!result.isEmpty()) {
+        let message = result.array().reduce((current, error) => current + error.msg + " ", " ");
+        let error = new Error(message);
+        error.status = 422;
+        throw error;
+    }
+    //response
     Student.deleteOne({_id:req.body.id})
            .then((data)=>{
 
