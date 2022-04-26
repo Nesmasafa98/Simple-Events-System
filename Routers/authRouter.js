@@ -15,6 +15,10 @@ router.post("/register/speaker",[
     validator.validateBuilding
 ],controller.register);
 
-router.post("/register/student",controller.register);
+router.post("/register/student",[validator.validateEmail,
+                                validator.validateStudentEmailExists,
+                                validator.validateUserName,
+                                validator.validatePassword,]
+                                ,controller.register);
 
 module.exports = router;

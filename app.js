@@ -40,6 +40,8 @@ server.use((req, res, next)=>{
 
 })
 
+server.use(express.static("Public"));
+
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended: false}));
 

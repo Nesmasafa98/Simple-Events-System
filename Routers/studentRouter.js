@@ -3,6 +3,7 @@ const router = express.Router();
 const controller = require("./../Controllers/studentController");
 const validator = require("./../validator");
 const authMW = require("./../MiddleWares/authMiddleWare");
+const bcryptPassword = require("../bcryptPassword");
 
 router.use(authMW);
 
@@ -14,6 +15,8 @@ put([
     validator.validateUserName,
     validator.validatePassword
     ],
+    bcryptPassword.hashPassword
+    ,
     controller.updateStudent).
 delete(validator.validateID, controller.deleteStudent)
 

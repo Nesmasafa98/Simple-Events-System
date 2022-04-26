@@ -4,6 +4,8 @@ const Speaker = require("./../Models/speakerModel");
 const {validationResult} = require("express-validator");
 const mongoose = require("mongoose");
 
+
+
 module.exports.login = (req,res,next)=>{
 
     let token;
@@ -77,7 +79,6 @@ module.exports.register = (req,res,next)=>{
         email : req.body.email,
         password : req.body.password
     });
-
     student.save()
            .then((data)=>{
 
@@ -106,12 +107,17 @@ module.exports.register = (req,res,next)=>{
 
     }
     //response
+    const plaintextPassword = req.body.password;
+    let hashedPassword;
+    bcrypt.hash(plaintextPassword, saltRounds, function(err, hash) {
+        hashedPassword = hash;
+    });
     let speaker = new Speaker({
 
         _id : mongoose.Types.ObjectId,
         email : req.body.email,
         username : req.body.username,
-        password : req.body.password,
+        password : hashedPassword,
         city : req.body.city,
         street : req.body.street,
         building : req.body.buildingNo

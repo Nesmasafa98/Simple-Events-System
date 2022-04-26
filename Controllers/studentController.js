@@ -1,6 +1,8 @@
 const {validationResult} = require("express-validator");
 const Student = require("./../Models/studentModel");
 
+
+
 //Helper Functions
 function AssignRoleAdmin(req)
 {
@@ -13,7 +15,6 @@ function AssignRoleAdmin(req)
 
 function AssignRoleStudent(req)
 {
-    console.log(req.role)
     if(req.role !== "student")
     {
         throw new Error("Not Authorized");
@@ -113,7 +114,7 @@ module.exports.updateStudent = (req,res,next)=>{
         error.status = 422;
         throw error;
     }
-    //response
+    //response  
     Student.updateOne({_id:req.body.id},{
         $set:{
             _id : req.body.id,

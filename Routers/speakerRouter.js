@@ -3,6 +3,8 @@ const router = express.Router();
 const controller = require("./../Controllers/speakerController");
 const validator = require("./../validator");
 const authMW = require("./../MiddleWares/authMiddleWare");
+const bcryptPassword = require("../bcryptPassword");
+
 
 router.use(authMW);
 
@@ -16,7 +18,8 @@ put([
     validator.validateCity,
     validator.validateStreet,
     validator.validateBuilding
-    ]
+    ],
+    bcryptPassword.hashPassword
     ,controller.updateSpeaker).
 delete(controller.deleteSpeaker);
 
