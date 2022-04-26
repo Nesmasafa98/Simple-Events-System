@@ -18,10 +18,13 @@ put([
     validator.validateDate
     ],
     controller.updateEvent).
-delete(validator.validateID,controller.deleteEvent)
+delete(validator.validateID, controller.deleteEvent)
 
 router.get("/events/:id", validator.validateID, controller.getEventById);
 router.get("/events/students/:id", validator.validateID, controller.viewStudentEvents);
-router.get("/events/speakers/:id", validator.validateID, controller.viewSpeakerEvents);
+router.get("/events/speakers/:id", validator.validateObjectID,controller.viewSpeakerEvents);
+router.put("/events/students", validator.validateStudentsArray,validator.validateID, controller.assignStudentsToEvent);
+router.put("/events/speakers/main", validator.validateObjectID,controller.assignMainSpeakerToEvent);
+router.put("/events/speakers/others", validator.validateSpeakersArray,validator.validateID,controller.assignOtherSpeakersToEvent);
 
 module.exports = router;

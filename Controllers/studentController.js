@@ -1,8 +1,37 @@
 const {validationResult} = require("express-validator");
 const Student = require("./../Models/studentModel");
 
+//Helper Functions
+function AssignRoleAdmin(req)
+{
+    //console.log(req.role);
+    if(req.role !== "admin")
+    {
+        throw new Error("Not Authorized");
+    }
+}
+
+function AssignRoleStudent(req)
+{
+    console.log(req.role)
+    if(req.role !== "student")
+    {
+        throw new Error("Not Authorized");
+    }
+}
+
+function AssignRoleSpeaker(req)
+{
+    if(req.role !== "speaker")
+    {
+        throw new Error("Not Authorized");
+    }
+}
+
+//Main Functions
 module.exports.getStudents = (req,res,next)=>{
 
+    AssignRoleAdmin(req);
     Student.find({})
            .then((data)=>{
 
@@ -18,6 +47,7 @@ module.exports.getStudents = (req,res,next)=>{
 
 module.exports.getStudentById = (req,res,next)=>{
 
+    AssignRoleAdmin(req);
     //validation
     let result = validationResult(req);
     if (!result.isEmpty()) {
@@ -41,39 +71,40 @@ module.exports.getStudentById = (req,res,next)=>{
 }
 
 
-module.exports.createStudent = (req,res,next)=>{
+// module.exports.createStudent = (req,res,next)=>{
 
-    //validation
-    let result = validationResult(req);
-    if (!result.isEmpty()) {
-        let message = result.array().reduce((current, error) => current + error.msg + " ", " ");
-        let error = new Error(message);
-        error.status = 422;
-        throw error;
-    }
-    //response
-    const student = new Student({
-        _id : req.body.id,
-        username : req.body.username,
-        email : req.body.email,
-        password : req.body.password
-    });
+//     //validation
+//     let result = validationResult(req);
+//     if (!result.isEmpty()) {
+//         let message = result.array().reduce((current, error) => current + error.msg + " ", " ");
+//         let error = new Error(message);
+//         error.status = 422;
+//         throw error;
+//     }
+//     //response
+//     const student = new Student({
+//         _id : req.body.id,
+//         username : req.body.username,
+//         email : req.body.email,
+//         password : req.body.password
+//     });
 
-    student.save()
-           .then((data)=>{
+//     student.save()
+//            .then((data)=>{
 
-                res.status(201).json({message:"Student Created",data});
+//                 res.status(201).json({message:"Student Created",data});
 
-           })
-           .catch((error)=>{
-               next(error);
-           })
+//            })
+//            .catch((error)=>{
+//                next(error);
+//            })
 
-}
+// }
 
 
 module.exports.updateStudent = (req,res,next)=>{
 
+    AssignRoleStudent(req);
     //validation
     let result = validationResult(req);
     if (!result.isEmpty()) {
@@ -108,6 +139,7 @@ module.exports.updateStudent = (req,res,next)=>{
 
 module.exports.deleteStudent = (req,res,next)=>{
 
+    AssignRoleAdmin(req);
     //validation
     let result = validationResult(req);
     if (!result.isEmpty()) {
@@ -132,3 +164,35 @@ module.exports.deleteStudent = (req,res,next)=>{
            })
     
 }
+
+module.exports.editStudentPartial = (req,res,next)=>{
+
+    AssignRoleAdmin(req);
+    //validation
+    let result = validationResult(req);
+    if (!result.isEmpty()) {
+        let message = result.array().reduce((current, error) => current + error.msg + " ", " ");
+        let error = new Error(message);
+        error.status = 422;
+        throw error;
+    }
+    //response
+    Student.updateOne({_id:req.body.id},{
+        $set:{
+            email : req.body.email,
+        }
+    })
+           .then((data)=>{
+               if(data.matchedCount == 0)
+               {
+                   throw new Error("Student Not Found");
+               }
+
+               res.status(200).json({message:"Student Updated",data});
+           })
+           .catch((error)=>{
+               next(error);
+           })
+
+}
+

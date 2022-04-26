@@ -8,13 +8,6 @@ router.use(authMW);
 
 router.route("/students").
 get(controller.getStudents).
-post([
-        validator.validateEmail,
-        validator.validateStudentEmailExists,
-        validator.validateUserName,
-        validator.validatePassword
-    ],
-    controller.createStudent).
 put([
     validator.validateEmail,
     validator.validateStudentEmailExists,
@@ -25,6 +18,8 @@ put([
 delete(validator.validateID, controller.deleteStudent)
 
 router.get("/students/:id", validator.validateID, controller.getStudentById);
+
+router.put("/students/profile", validator.validateEmail, validator.validateStudentEmailExists, controller.editStudentPartial);
 
 
 module.exports = router;

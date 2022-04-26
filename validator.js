@@ -1,4 +1,5 @@
-const {body,param,query} = require("express-validator");
+const {body,param,query,check} = require("express-validator");
+const mongoose = require("mongoose");
 const Student = require("./Models/studentModel");
 const Speaker = require("./Models/speakerModel");
 
@@ -41,5 +42,43 @@ module.exports.validateSpeakerEmailExists = body("email").custom((value) => {
                 throw new Error("Email already in use.");
             }
         })
+});
+
+module.exports.validateStudentsArray = body("students").isArray().withMessage("Invalid student data").custom((value)=>{
+
+ 
+
+    for(let i = 0; i<value.length; i++)
+    {
+        if(typeof(value[i]) !== "number")
+        {
+            throw new Error("Invalid Student Data")
+        }
+    }
+    return true;
+        
+});
+
+module.exports.validateObjectID = body("id")||param("id")||body("mainSpeaker").custom((value)=>{
+    if(mongoose.isValidObjectId(value))
+    {
+        return true;
+    }
+    throw new Error("Invalid Speaker Data");
+});
+
+module.exports.validateSpeakersArray = body("otherSpeakers").isArray().withMessage("Invalid speaker data").custom((value)=>{
+
+ 
+
+    for(let i = 0; i<value.length; i++)
+    {
+        if(!mongoose.isValidObjectId(value[i]))
+        {
+            throw new Error("Invalid Speaker Data")
+        }
+    }
+    return true;
+        
 });
 

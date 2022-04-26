@@ -8,16 +8,6 @@ router.use(authMW);
 
 router.route("/speakers").
 get(controller.getSpeakers).
-post([
-        validator.validateEmail,
-        validator.validateSpeakerEmailExists,
-        validator.validateUserName,
-        validator.validatePassword,
-        validator.validateCity,
-        validator.validateStreet,
-        validator.validateBuilding
-    ]
-    ,controller.createSpeaker).
 put([
     validator.validateEmail,
     validator.validateSpeakerEmailExists,
@@ -28,8 +18,16 @@ put([
     validator.validateBuilding
     ]
     ,controller.updateSpeaker).
-delete(controller.deleteSpeaker)
+delete(controller.deleteSpeaker);
 
 router.get("/speakers/:id",controller.getSpeakerById);
+router.put("speakers/profile",[
+    validator.validateEmail,
+    validator.validateSpeakerEmailExists,
+    validator.validateCity,
+    validator.validateStreet,
+    validator.validateBuilding
+    ]
+    ,controller.editSpeakerPartially)
 
 module.exports = router;

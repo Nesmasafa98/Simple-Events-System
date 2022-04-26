@@ -220,3 +220,94 @@ module.exports.viewSpeakerEvents = (req,res,next)=>{
         next(error);
     })
 }
+
+module.exports.assignStudentsToEvent = (req,res,next)=>{
+
+    AssignRoleAdmin(req);
+    //validation
+    let result = validationResult(req);
+    if(!result.isEmpty())
+    {
+        console.log(result);
+        let message = result.array().reduce((current,error)=>current + error.msg + ", " , " ");
+        let error = new Error(message);
+        error.status = 422;
+        throw error;
+    }
+    //response 
+    Event.updateOne({_id:req.body.id},{
+        $addToSet:{students: req.body.students}
+    })
+         .then((data)=>{
+             if(data.matchedCount == 0)
+             {
+                 throw new Error("Event Not Found");
+             }
+             res.status(200).json({message:"Students Assigned",data});
+
+            })
+            .catch((error)=>{
+                next(error);
+            })
+
+}
+
+module.exports.assignMainSpeakerToEvent = (req,res,next)=>{
+    AssignRoleAdmin(req);
+    //validation
+    let result = validationResult(req);
+    if(!result.isEmpty())
+    {
+        console.log(result);
+        let message = result.array().reduce((current,error)=>current + error.msg + ", " , " ");
+        let error = new Error(message);
+        error.status = 422;
+        throw error;
+    }
+    //response
+    Event.updateOne({_id:req.body.id},{
+        $set:{mainSpeaker: req.body.mainSpeaker}
+    })
+         .then((data)=>{
+             if(data.matchedCount == 0)
+             {
+                 throw new Error("Event Not Found");
+             }
+             res.status(200).json({message:"Main Speaker Assigned",data});
+
+            })
+            .catch((error)=>{
+                next(error);
+            })
+
+}
+
+module.exports.assignOtherSpeakersToEvent = (req,res,next)=>{
+    AssignRoleAdmin(req);
+    //validation
+    let result = validationResult(req);
+    if(!result.isEmpty())
+    {
+        console.log(result);
+        let message = result.array().reduce((current,error)=>current + error.msg + ", " , " ");
+        let error = new Error(message);
+        error.status = 422;
+        throw error;
+    }
+    //response
+    Event.updateOne({_id:req.body.id},{
+        $addToSet:{otherSpeakers: req.body.otherSpeakers}
+    })
+         .then((data)=>{
+             if(data.matchedCount == 0)
+             {
+                 throw new Error("Event Not Found");
+             }
+             res.status(200).json({message:"Speakers Assigned",data});
+
+            })
+            .catch((error)=>{
+                next(error);
+            })
+
+}
