@@ -5,13 +5,17 @@ module.exports = (req,res,next)=>{
 
     try
     {
-        token = req.get("Authorization").split(" ")[1];
-        decodedToken = jwt.verify(token,"ILoveChocolateCake");
+        if(req.get("Authorization"))
+        {
+            token = req.get("Authorization").split(" ")[1];
+            decodedToken = jwt.verify(token, "ILoveChocolateCake");
+            req.role = decodedToken.role;
+        }
+        next();
     }
     catch
     {
         next(new Error("Not Authenticated"));
     }
-    req.role = decodedToken.role;
-    next();
+
 }

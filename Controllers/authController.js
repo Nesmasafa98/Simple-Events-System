@@ -9,6 +9,7 @@ const mongoose = require("mongoose");
 module.exports.login = (req,res,next)=>{
 
     let token;
+    console.log(req.body)
     if(req.body.email == "admin@admin.com" && req.body.password == "admin") //admin
     {
         token = jwt.sign({
