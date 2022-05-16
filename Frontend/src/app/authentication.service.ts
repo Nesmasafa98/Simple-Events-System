@@ -4,13 +4,13 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class EventService {
+export class AuthenticationService {
 
   baseUrl:string = "http://localhost:8080/";
   constructor(public http:HttpClient) { }
 
-  getEvents()
+  login(data:any)
   {
-    return this.http.get<Event[]>(this.baseUrl + "events");
+    return this.http.post<any>(this.baseUrl + "login",data);
   }
 }

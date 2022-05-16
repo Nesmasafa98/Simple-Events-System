@@ -18,6 +18,9 @@ import { EventListComponent } from './event-list/event-list.component';
   ],
   imports: [
     CommonModule
+  ],
+  exports: [
+    EventListComponent
   ]
 })
 export class EventsModule { }

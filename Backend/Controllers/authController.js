@@ -16,7 +16,7 @@ module.exports.login = (req,res,next)=>{
             email : req.body.email,
             role : "admin"
         },"ILoveChocolateCake");
-        res.status(200).json({message: "login", token});
+        res.status(200).json({message: "login", token, role:"Admin"});
     }
     else // student 
     {
@@ -29,7 +29,7 @@ module.exports.login = (req,res,next)=>{
                             email : data.email,
                             role : "student"
                         },"ILoveChocolateCake");
-                        res.status(200).json({message: "login", token});
+                        res.status(200).json({message: "login", token, role:"Student"});
                         
                     }
                     else
@@ -45,7 +45,7 @@ module.exports.login = (req,res,next)=>{
                                         email: data.email,
                                         role: "speaker"
                                     }, "ILoveChocolateCake");
-                                    res.status(200).json({ message: "login", token });
+                                    res.status(200).json({ message: "login", token , role:"Speaker"});
 
                                 })
                                 .catch((error) => {
@@ -88,7 +88,7 @@ module.exports.register = (req,res,next)=>{
                    email: data.email,
                    role: "student"
                }, "ILoveChocolateCake");
-               res.status(200).json({ message: "login", token })
+               res.status(200).json({ message: "login", token , role:"Student"})
 
            })
            .catch((error)=>{
@@ -133,7 +133,7 @@ module.exports.register = (req,res,next)=>{
                    email: data.email,
                    role: "speaker"
                }, "ILoveChocolateCake");
-               res.status(200).json({ message: "login", token })
+               res.status(200).json({ message: "login", token, role:"Speaker" })
 
            })
            .catch((error)=>{
