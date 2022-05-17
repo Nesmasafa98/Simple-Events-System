@@ -3,10 +3,10 @@ const Student = require("./../Models/studentModel");
 const Speaker = require("./../Models/speakerModel");
 const {validationResult} = require("express-validator");
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 
-
-module.exports.login = (req,res,next)=>{
+module.exports.login = async(req,res,next)=>{
 
     let token;
     console.log(req.body)
@@ -20,33 +20,49 @@ module.exports.login = (req,res,next)=>{
     }
     else // student 
     {
-        Student.findOne({email:req.body.email,password:req.body.password})
+        Student.findOne({email:req.body.email})
                .then((data)=>{
                     if(data !== null)
                     {
-                        token = jwt.sign({
-                            id : data.id,
-                            email : data.email,
-                            role : "student"
-                        },"ILoveChocolateCake");
-                        res.status(200).json({message: "login", token, role:"Student"});
-                        
+                        bcrypt.compare(req.body.password, data.password,(err,result)=>{
+                            if(result)
+                            {
+                                token = jwt.sign({
+                                    id : data.id,
+                                    email : data.email,
+                                    role : "student"
+                                },"ILoveChocolateCake");
+                                res.status(200).json({message: "login", token, role:"Student"});
+                            }
+                        })
                     }
                     else
                     {
-                        Speaker.findOne({email:req.body.email,password:req.body.password})
+                        Speaker.findOne({email:req.body.email})
                                 .then((data)=>{
-                                    if (data == null) {
+                                    if (data != null) {
+
+                                        bcrypt.compare(req.body.password, data.password,(err,result)=>{
+                                            if(result)
+                                            {
+                                                token = jwt.sign({
+                                                    id: data.id,
+                                                    email: data.email,
+                                                    role: "speaker"
+                                                }, "ILoveChocolateCake");
+                                                res.status(200).json({ message: "login", token, role: "Speaker" });
+                                            }
+  
+                                        else
+                                        {
+                                            throw new Error("Username or password is incorrect");
+                                        }
+                                    })
+                                }
+                                    else
+                                    {
                                         throw new Error("Username or password is incorrect");
                                     }
-
-                                    token = jwt.sign({
-                                        id: data.id,
-                                        email: data.email,
-                                        role: "speaker"
-                                    }, "ILoveChocolateCake");
-                                    res.status(200).json({ message: "login", token , role:"Speaker"});
-
                                 })
                                 .catch((error) => {
                                     next(error);

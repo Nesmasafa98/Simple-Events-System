@@ -33,11 +33,13 @@ export class LoginComponent implements OnInit {
       }
       else if(res.role == "Student")
       {
-
+        sessionStorage.setItem("Token", res.token);
+        this.router.navigateByUrl("/student");
       }
       else if(res.role == "Speaker")
       {
-        
+        sessionStorage.setItem("Token", res.token);
+        this.router.navigateByUrl("/speaker");
       }
     })
   }
