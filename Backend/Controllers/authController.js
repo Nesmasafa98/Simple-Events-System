@@ -63,7 +63,7 @@ module.exports.login = (req,res,next)=>{
 }
 
 module.exports.register = (req,res,next)=>{
-    if(req.body.role === "student")
+    if(req.body.role === "Student")
     {
         //validation
     let result = validationResult(req);
@@ -96,7 +96,7 @@ module.exports.register = (req,res,next)=>{
            })
 
     }
-    else if(req.body.role === "speaker")
+    else if(req.body.role === "Speaker")
     {
         //validation
     let result = validationResult(req);

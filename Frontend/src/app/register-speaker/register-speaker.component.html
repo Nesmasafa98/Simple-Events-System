@@ -3,26 +3,26 @@
         <h3 class="h3 fw-bold">Create Account</h3>
         <form class="row">
             <div class="form-group my-2 col-7 m-auto">
-                <input type="email" class="form-control p-1" placeholder="E-mail" required autofocus>
+                <input type="email" class="form-control p-1" placeholder="E-mail" required autofocus #email>
             </div>
             <div class="form-group my-2 col-7 m-auto">
-                <input type="text" class="form-control p-1" placeholder="Username" required>
+                <input type="text" class="form-control p-1" placeholder="Username" required #username>
             </div>
             <div class="form-group my-2 col-7 m-auto">
-                <input type="text" class="form-control p-1" placeholder="City" required>
+                <input type="text" class="form-control p-1" placeholder="City" required #city>
             </div>
             <div class="form-group my-2 col-7 m-auto">
-                <input type="text" class="form-control p-1" placeholder="Street" required>
+                <input type="text" class="form-control p-1" placeholder="Street" required #street>
             </div>
             <div class="form-group my-2 col-7 m-auto">
-                <input type="number" class="form-control p-1" placeholder="Building No." required>
+                <input type="number" class="form-control p-1" placeholder="Building No." required #building>
             </div>
             <div class="form-group my-2 col-7 m-auto">
-                <input type="password" class="form-control p-1" placeholder="Password" required>
+                <input type="password" class="form-control p-1" placeholder="Password" required #password>
             </div>
 
             <div class="d-grid gap-2 m-2 my-3 col-7 m-auto">
-                <input type="submit" value="Register" class="btn btn-primary p-1">
+                <input type="submit" value="Register" class="btn btn-primary p-1" (click)="createUser($event,email.value,username.value,password.value, city.value, street.value, +building.value)">
             </div>
         </form>
     </div>

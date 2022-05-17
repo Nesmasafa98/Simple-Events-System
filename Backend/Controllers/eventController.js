@@ -13,7 +13,6 @@ function AssignRoleAdmin(req)
 
 function AssignRoleStudent(req)
 {
-    console.log(req.role)
     if(req.role !== "student")
     {
         throw new Error("Not Authorized");
@@ -34,8 +33,11 @@ module.exports.getEvents = (req,res,next)=>{
     AssignRoleAdmin(req);
     Event.find({})
           .then((data)=>{
-
-            res.status(200).json({data});
+            let events = [];
+            for (let i = 0; i < data.length; i++) {
+                events.push(data[i].transform());
+            }
+            res.status(200).json(events);
 
           })
           .catch((error)=>{
@@ -58,8 +60,11 @@ module.exports.getEventById = (req,res,next)=>{
     //response
     Event.find({_id:req.params.id})
           .then((data)=>{
-
-            res.status(200).json({data});
+            let events = [];
+            for (let i = 0; i < data.length; i++) {
+                events.push(data[i].transform());
+            }
+            res.status(200).json(events);
 
           })
           .catch((error)=>{
@@ -93,7 +98,7 @@ module.exports.createEvent = (req,res,next)=>{
     event.save()
          .then((data)=>{
 
-            res.status(201).json({message:"Event Added",data});
+            res.status(201).json({message:"Event Added",data,success:true});
 
          })
          .catch((error)=>{
@@ -132,7 +137,7 @@ module.exports.updateEvent = (req,res)=>{
                 {
                     throw new Error("Event Not Found");
                 }
-                res.status(200).json({message:"Event Updated",data});
+                res.status(200).json({message:"Event Updated",data, success:true});
 
            })
            .catch((error)=>{
@@ -162,7 +167,7 @@ module.exports.deleteEvent = (req,res)=>{
             {
                 throw new Error("Event Not Found");
             }
-            res.status(200).json({message:"Event Deleted",data});
+            res.status(200).json({message:"Event Deleted",data, success:true});
 
            })
            .catch((error)=>{
@@ -187,8 +192,11 @@ module.exports.viewStudentEvents = (req,res,next)=>{
     //response 
     Event.find({students:req.params.id})
     .then((data)=>{
-
-      res.status(200).json({data});
+        let events = [];
+        for (let i = 0; i < data.length; i++) {
+            events.push(data[i].transform());
+        }
+      res.status(200).json(events);
 
     })
     .catch((error)=>{
@@ -212,8 +220,11 @@ module.exports.viewSpeakerEvents = (req,res,next)=>{
     //response 
     Event.find({$or: [ { mainSpeaker: req.params.id }, { otherSpeakers: req.params.id } ]})
     .then((data)=>{
-
-      res.status(200).json({data});
+        let events = [];
+        for (let i = 0; i < data.length; i++) {
+            events.push(data[i].transform());
+        }
+      res.status(200).json(events);
 
     })
     .catch((error)=>{
@@ -243,7 +254,7 @@ module.exports.assignStudentsToEvent = (req,res,next)=>{
              {
                  throw new Error("Event Not Found");
              }
-             res.status(200).json({message:"Students Assigned",data});
+             res.status(200).json({message:"Students Assigned",data, success:true});
 
             })
             .catch((error)=>{
@@ -273,7 +284,7 @@ module.exports.assignMainSpeakerToEvent = (req,res,next)=>{
              {
                  throw new Error("Event Not Found");
              }
-             res.status(200).json({message:"Main Speaker Assigned",data});
+             res.status(200).json({message:"Main Speaker Assigned",data, success:true});
 
             })
             .catch((error)=>{
@@ -303,7 +314,7 @@ module.exports.assignOtherSpeakersToEvent = (req,res,next)=>{
              {
                  throw new Error("Event Not Found");
              }
-             res.status(200).json({message:"Speakers Assigned",data});
+             res.status(200).json({message:"Speakers Assigned",data, success:true});
 
             })
             .catch((error)=>{

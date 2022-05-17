@@ -12,8 +12,9 @@ const routes: Routes = [
   {path:"register", component:RegisterComponent},
   {path:"register/student", component:RegisterStudentComponent},
   {path:"register/speaker", component:RegisterSpeakerComponent},
-  {path:"home", loadChildren: ()=> import("src/app/users/admin/admin.module").then(m=>m.AdminModule)},
-  {path:"events", component:EventListComponent},
+  {path:"admin", loadChildren: ()=> import("src/app/users/admin/admin.module").then(m=>m.AdminModule)},
+  {path:"student", loadChildren: ()=> import("src/app/users/student/student.module").then(m=>m.StudentModule)},
+  {path:"speaker", loadChildren: ()=> import("src/app/users/speaker/speaker.module").then(m=>m.SpeakerModule)},
   {path:"", redirectTo:"login", pathMatch:"full"},
   {path:"**", component:NotFoundComponent},
 ];

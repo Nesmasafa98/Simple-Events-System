@@ -15,4 +15,14 @@ eventSchema.plugin(autoIncrement,{
     startAt :1
 });
 
+eventSchema.method('transform', function() {
+    var obj = this.toObject();
+
+    //Rename fields
+    obj.id = obj._id;
+    delete obj._id;
+
+    return obj;
+});
+
 module.exports = mongoose.model("events",eventSchema);
