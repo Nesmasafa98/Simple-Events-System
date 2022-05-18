@@ -5,6 +5,9 @@ import { EventEditComponent } from './event-edit/event-edit.component';
 import { EventDeleteComponent } from './event-delete/event-delete.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { EventListComponent } from './event-list/event-list.component';
+import { RouterModule } from '@angular/router';
+import { EventRoutingModule } from './events.routing';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -17,7 +20,10 @@ import { EventListComponent } from './event-list/event-list.component';
     EventListComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule,
+    EventRoutingModule,
+    FormsModule
   ],
   exports: [
     EventListComponent

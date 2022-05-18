@@ -14,4 +14,24 @@ export class EventService {
   {
     return this.http.get<Event[]>(this.baseUrl + "events");
   }
+
+  getEvent(id:number)
+  {
+    return this.http.get<Event>(this.baseUrl + "events/" + id);
+  }
+
+  editEvent(id:number, data:any)
+  {
+    return this.http.put<any>(this.baseUrl + "events/" + id, data);
+  }
+
+  deleteEvent(id:number)
+  {
+    return this.http.delete<any>(this.baseUrl + "events/" + id);
+  }
+
+  addEvent(data:Event)
+  {
+    return this.http.post<any>(this.baseUrl + "events/", data);
+  }
 }

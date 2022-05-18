@@ -58,13 +58,10 @@ module.exports.getEventById = (req,res,next)=>{
         throw error;
     }
     //response
-    Event.find({_id:req.params.id})
+    Event.findOne({_id:req.params.id})
           .then((data)=>{
-            let events = [];
-            for (let i = 0; i < data.length; i++) {
-                events.push(data[i].transform());
-            }
-            res.status(200).json(events);
+            
+            res.status(200).json(data.transform());
 
           })
           .catch((error)=>{
@@ -87,9 +84,8 @@ module.exports.createEvent = (req,res,next)=>{
     }
     //response 
     const event = new Event({
-        _id : req.body.id,
         title : req.body.title,
-        eventDate : req.body.date,
+        eventDate : req.body.eventDate,
         mainSpeaker : req.body.mainSpeaker ,
         otherSpeakers : req.body.otherSpeakers ,
         students : req.body.students
@@ -108,7 +104,7 @@ module.exports.createEvent = (req,res,next)=>{
 }
 
 
-module.exports.updateEvent = (req,res)=>{
+module.exports.updateEvent = (req,res,next)=>{
 
     AssignRoleAdmin(req);
      //validation
@@ -125,7 +121,7 @@ module.exports.updateEvent = (req,res)=>{
         $set:{
             _id : req.body.id,
             title : req.body.title,
-            eventDate : req.body.date,
+            eventDate : req.body.eventDate,
             mainSpeaker : req.body.mainSpeaker ,
             otherSpeakers : req.body.otherSpeakers,
             students : req.body.students
@@ -147,7 +143,7 @@ module.exports.updateEvent = (req,res)=>{
 }
 
 
-module.exports.deleteEvent = (req,res)=>{
+module.exports.deleteEvent = (req,res,next)=>{
 
     AssignRoleAdmin(req);
      //validation
@@ -160,7 +156,7 @@ module.exports.deleteEvent = (req,res)=>{
          throw error;
      }
      //response 
-    Event.deleteOne({_id:req.body.id})
+    Event.deleteOne({_id:req.params.id})
            .then((data)=>{
 
             if(data.matchedCount == 0)

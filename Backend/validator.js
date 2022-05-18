@@ -15,9 +15,9 @@ module.exports.validateStreet = body("street").isAlpha().withMessage("Invalid st
 
 module.exports.validateBuilding = body("buildingNo").isNumeric().withMessage("Invalid building number");
 
-module.exports.validateTitle = body("title").isAlpha().withMessage("Title must contain alphanumeric characters");
+module.exports.validateTitle = body("title").isAlphanumeric().withMessage("Title must contain alphanumeric characters");
 
-module.exports.validateDate = body("date").isDate().withMessage("Invalid date");
+module.exports.validateDate = body("eventDate").isDate({format: 'YYYY-MM-DD'}).withMessage("Invalid date");
 
 module.exports.validateID = body("id")||param("id").isNumeric().withMessage("ID must be numeric");
 

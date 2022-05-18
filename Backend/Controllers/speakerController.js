@@ -34,9 +34,14 @@ function AssignRoleSpeaker(req)
 module.exports.getSpeakers = (req,res,next)=>{
 
     AssignRoleAdmin(req);
+    let speakers = [];
     Speaker.find({})
            .then((data) => {
-               res.status(200).json({ message: data });
+               for(let i = 0; i<data.length; i++)
+               {
+                   speakers.push(data[i].transform());
+               }
+               res.status(200).json(speakers);
            })
            .catch((error) => {
                next(error);
@@ -57,53 +62,15 @@ module.exports.getSpeakerById = (req,res,next)=>{
 
     }
     //response
-    Speaker.find({_id:req.body.id})
+    Speaker.findOne({_id:req.body.id})
     .then((data) => {
-        res.status(200).json({ message: data });
+        res.status(200).json(data.transform());
     })
     .catch((error) => {
         next(error);
     })
     
 }
-
-// module.exports.createSpeaker = (req,res,next)=>{
-
-//     //validation
-//     let result = validationResult(req);
-//     if (!result.isEmpty()) {
-//         let message = result.array().reduce((current, error) => current + error.msg + ", ", " ");
-//         let error = new Error(message);
-//         error.status = 422;
-//         throw error;
-
-//     }
-//     //response
-//     let speaker = new Speaker({
-
-//         _id : mongoose.Types.ObjectId,
-//         email : req.body.email,
-//         username : req.body.username,
-//         password : req.body.password,
-//         city : req.body.city,
-//         street : req.body.street,
-//         building : req.body.buildingNo
-
-//     });
-
-//     speaker.save()
-//            .then((data)=>{
-
-//                 res.status(201).json({message:"Speaker Added" , data});
-
-//            })
-//            .catch((error)=>{
-
-//                next(error);
-
-//            })
-
-// }
 
 
 module.exports.updateSpeaker = (req,res,next)=>{
@@ -135,7 +102,7 @@ module.exports.updateSpeaker = (req,res,next)=>{
                 {
                     throw new Error("Speaker Not Found");
                 }
-                res.status(200).json({message:"Speaker Updated",data});
+                res.status(200).json({message:"Speaker Updated",data, success:true});
 
            })
            .catch((error)=>{
@@ -168,7 +135,7 @@ module.exports.deleteSpeaker = (req,res,next)=>{
             {
                 throw new Error("Speaker Not Found");
             }
-            res.status(200).json({message:"Speaker Deleted",data});
+            res.status(200).json({message:"Speaker Deleted",data, success:true});
 
            })
            .catch((error)=>{
@@ -204,7 +171,7 @@ module.exports.editSpeakerPartially = (req,res,next)=>{
                 {
                     throw new Error("Speaker Not Found");
                 }
-                res.status(200).json({message:"Speaker Updated",data});
+                res.status(200).json({message:"Speaker Updated",data, success:true});
 
            })
            .catch((error)=>{

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EventService } from 'src/app/event.service';
 
 @Component({
   selector: 'app-event-delete',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventDeleteComponent implements OnInit {
 
-  constructor() { }
+  constructor(public eventSrv:EventService, public ar:ActivatedRoute, public router:Router) { }
 
   ngOnInit(): void {
+    this.deleteEvent();
+  }
+
+  deleteEvent()
+  {
+    this.ar.params.subscribe((param)=>{
+      this.eventSrv.deleteEvent(+param['id']).subscribe(res=>{
+        if(res.success)
+        {
+          this.router.navigateByUrl("/admin/events");
+        }
+      });
+      })
   }
 
 }

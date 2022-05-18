@@ -17,10 +17,15 @@ put([
     validator.validateTitle,
     validator.validateDate
     ],
-    controller.updateEvent).
-delete(validator.validateID, controller.deleteEvent)
+    controller.updateEvent)
 
 router.get("/events/:id", validator.validateID, controller.getEventById);
+router.delete("/events/:id",validator.validateID, controller.deleteEvent);
+router.put("/events/:id",[
+    validator.validateTitle,
+    validator.validateDate
+    ],
+    controller.updateEvent);
 router.get("/events/students/:id", validator.validateID, controller.viewStudentEvents);
 router.get("/events/speakers/:id", validator.validateObjectID,controller.viewSpeakerEvents);
 router.put("/events/students", validator.validateStudentsArray,validator.validateID, controller.assignStudentsToEvent);

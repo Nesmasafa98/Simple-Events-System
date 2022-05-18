@@ -3,7 +3,9 @@ import {  RouterModule, Routes } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
 
 const routes:Routes = [
-    {path:"",component:HomeComponent}
+    {path:"",component:HomeComponent},
+    {path:"events", loadChildren: ()=> import("src/app/events/events.module").then(m=>m.EventsModule)},
+
 ]
 
 
