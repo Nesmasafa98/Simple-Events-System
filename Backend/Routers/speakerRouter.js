@@ -9,8 +9,11 @@ const bcryptPassword = require("../bcryptPassword");
 router.use(authMW);
 
 router.route("/speakers").
-get(controller.getSpeakers).
-put([
+get(controller.getSpeakers)
+
+router.get("/speakers/:id",controller.getSpeakerById);
+router.delete("/speakers/:id",controller.deleteSpeaker);
+router.put("/speakers/:id",[
     validator.validateEmail,
     validator.validateSpeakerEmailExists,
     validator.validateUserName,
@@ -20,11 +23,8 @@ put([
     validator.validateBuilding
     ],
     bcryptPassword.hashPassword
-    ,controller.updateSpeaker).
-delete(controller.deleteSpeaker);
-
-router.get("/speakers/:id",controller.getSpeakerById);
-router.put("speakers/profile",[
+    ,controller.updateSpeaker);
+router.put("speakers/:id/profile",[
     validator.validateEmail,
     validator.validateSpeakerEmailExists,
     validator.validateCity,

@@ -117,9 +117,8 @@ module.exports.updateEvent = (req,res,next)=>{
          throw error;
      }
      //response 
-    Event.updateOne({_id:req.body.id},{
+    Event.updateOne({_id:req.params.id},{
         $set:{
-            _id : req.body.id,
             title : req.body.title,
             eventDate : req.body.eventDate,
             mainSpeaker : req.body.mainSpeaker ,
@@ -242,7 +241,7 @@ module.exports.assignStudentsToEvent = (req,res,next)=>{
         throw error;
     }
     //response 
-    Event.updateOne({_id:req.body.id},{
+    Event.updateOne({_id:req.params.id},{
         $addToSet:{students: req.body.students}
     })
          .then((data)=>{
@@ -272,7 +271,7 @@ module.exports.assignMainSpeakerToEvent = (req,res,next)=>{
         throw error;
     }
     //response
-    Event.updateOne({_id:req.body.id},{
+    Event.updateOne({_id:req.params.id},{
         $set:{mainSpeaker: req.body.mainSpeaker}
     })
          .then((data)=>{
@@ -302,7 +301,7 @@ module.exports.assignOtherSpeakersToEvent = (req,res,next)=>{
         throw error;
     }
     //response
-    Event.updateOne({_id:req.body.id},{
+    Event.updateOne({_id:req.params.id},{
         $addToSet:{otherSpeakers: req.body.otherSpeakers}
     })
          .then((data)=>{

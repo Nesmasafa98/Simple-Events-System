@@ -19,7 +19,7 @@
                 <a class="btn btn-success" [routerLink]="['/admin/events/details',event.id]">Details</a>
             </td>
             <td>
-                <button class="btn btn-primary">Edit</button>
+                <a class="btn btn-primary" [routerLink]="['/admin/events/edit',event.id]">Edit</a>
             </td>
             <td>
                 <a class="btn btn-danger" [routerLink]="['/admin/events/delete',event.id]">Delete</a>

@@ -8,8 +8,11 @@ const bcryptPassword = require("../bcryptPassword");
 router.use(authMW);
 
 router.route("/students").
-get(controller.getStudents).
-put([
+get(controller.getStudents)
+
+router.get("/students/:id", validator.validateID, controller.getStudentById);
+router.delete("/students/:id", validator.validateID, controller.deleteStudent);
+router.put("/students/:id",[
     validator.validateEmail,
     validator.validateStudentEmailExists,
     validator.validateUserName,
@@ -17,12 +20,8 @@ put([
     ],
     bcryptPassword.hashPassword
     ,
-    controller.updateStudent).
-delete(validator.validateID, controller.deleteStudent)
-
-router.get("/students/:id", validator.validateID, controller.getStudentById);
-
-router.put("/students/profile", validator.validateEmail, validator.validateStudentEmailExists, controller.editStudentPartial);
+    controller.updateStudent);
+router.put("/students/profile/:id", validator.validateEmail, validator.validateStudentEmailExists, controller.editStudentPartial);
 
 
 module.exports = router;

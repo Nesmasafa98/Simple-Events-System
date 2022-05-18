@@ -13,5 +13,15 @@
             {{speaker.email}}
         </option>
     </select>
+    <select class="form-control" name="other-speakers" multiple [(ngModel)]="event.otherSpeakers">
+      <option *ngFor="let speaker of speakers" value={{speaker.id}}>
+          {{speaker.email}}
+      </option>
+    </select>
+    <select class="form-control" name="students" multiple [(ngModel)]="event.students">
+      <option *ngFor="let student of students" value={{student.id}}>
+          {{student.email}}
+      </option>
+    </select>
     <button type="submit" class="btn btn-primary" (click)="addEvent($event)">Submit</button>
   </form>

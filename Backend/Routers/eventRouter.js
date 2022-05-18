@@ -26,10 +26,10 @@ router.put("/events/:id",[
     validator.validateDate
     ],
     controller.updateEvent);
-router.get("/events/students/:id", validator.validateID, controller.viewStudentEvents);
-router.get("/events/speakers/:id", validator.validateObjectID,controller.viewSpeakerEvents);
-router.put("/events/students", validator.validateStudentsArray,validator.validateID, controller.assignStudentsToEvent);
-router.put("/events/speakers/main", validator.validateObjectID,controller.assignMainSpeakerToEvent);
-router.put("/events/speakers/others", validator.validateSpeakersArray,validator.validateID,controller.assignOtherSpeakersToEvent);
+router.get("/events/:id/students", validator.validateID, controller.viewStudentEvents);
+router.get("/events/:id/speakers", validator.validateObjectID,controller.viewSpeakerEvents);
+router.put("/events/:id/students", validator.validateStudentsArray,validator.validateID, controller.assignStudentsToEvent);
+router.put("/events/:id/speakers/main", validator.validateObjectID,controller.assignMainSpeakerToEvent);
+router.put("/events/:id/speakers/others", validator.validateSpeakersArray,validator.validateID,controller.assignOtherSpeakersToEvent);
 
 module.exports = router;

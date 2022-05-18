@@ -62,7 +62,7 @@ module.exports.getSpeakerById = (req,res,next)=>{
 
     }
     //response
-    Speaker.findOne({_id:req.body.id})
+    Speaker.findOne({_id:req.params.id})
     .then((data) => {
         res.status(200).json(data.transform());
     })
@@ -86,7 +86,7 @@ module.exports.updateSpeaker = (req,res,next)=>{
 
     }
     //response
-    Speaker.updateOne({_id:req.body.id},{
+    Speaker.updateOne({_id:req.params.id},{
         $set:{
             email : req.body.email,
             username : req.body.username,
@@ -128,7 +128,7 @@ module.exports.deleteSpeaker = (req,res,next)=>{
 
     }
     //response
-    Speaker.deleteOne({_id:req.body.id})
+    Speaker.deleteOne({_id:req.params.id})
            .then((data)=>{
 
             if(data.matchedCount == 0)
@@ -157,7 +157,7 @@ module.exports.editSpeakerPartially = (req,res,next)=>{
 
     }
     //response
-    Speaker.updateOne({_id:req.body.id},{
+    Speaker.updateOne({_id:req.params.id},{
         $set:{
             email : req.body.email,
             city : req.body.city,
