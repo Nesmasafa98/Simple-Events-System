@@ -146,7 +146,7 @@ module.exports.deleteSpeaker = (req,res,next)=>{
 
 module.exports.editSpeakerPartially = (req,res,next)=>{
 
-    AssignRoleSpeaker(req);
+    AssignRoleAdmin(req);
     //validation
     let result = validationResult(req);
     if (!result.isEmpty()) {

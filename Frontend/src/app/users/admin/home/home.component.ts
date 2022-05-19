@@ -8,14 +8,12 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public router:Router) { }
+  constructor() { }
 
   ngOnInit(): void {
+    console.log("home")
   }
 
-  showEvents()
-  {
-    this.router.navigateByUrl("events");
-  }
+
 
 }

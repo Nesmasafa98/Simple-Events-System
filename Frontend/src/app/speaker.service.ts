@@ -15,23 +15,23 @@ export class SpeakerService {
     return this.http.get<Speaker[]>(this.baseUrl + "speakers");
   }
 
-  getSpeaker(id:number)
+  getSpeaker(id:string)
   {
     return this.http.get<Speaker>(this.baseUrl + "speakers/" + id);
   }
 
-  editSpeaker(id:number, data:any)
+  editSpeaker(id:string, data:any)
   {
     return this.http.put<any>(this.baseUrl + "speakers/" + id, data);
   }
 
-  deleteSpeaker(id:number)
+  deleteSpeaker(id:string)
   {
     return this.http.delete<any>(this.baseUrl + "speakers/" + id);
   }
 
-  addEvent(data:Event)
+  editSpeakerProfile(id:string, speaker:Speaker, oldEmail:string)
   {
-    return this.http.post<any>(this.baseUrl + "events/", data);
+    return this.http.put<any>(this.baseUrl + "speakers/profile/" + id, {id:speaker.id,email:speaker.email,city:speaker.city,street:speaker.street,building:speaker.building, oldEmail});
   }
 }

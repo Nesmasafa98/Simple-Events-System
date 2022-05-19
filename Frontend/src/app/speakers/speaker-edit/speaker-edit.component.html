@@ -1,1 +1,20 @@
-<p>speaker-edit works!</p>
+<h3>Edit Speaker</h3>
+<form>
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <input type="email" class="form-control" name="email" placeholder="Enter Email" required [(ngModel)]="speaker.email" >
+    </div>
+    <div class="form-group">
+      <label for="city">City</label>
+      <input type="text" class="form-control" name="city" required [(ngModel)]="speaker.city">
+    </div>
+    <div class="form-group">
+        <label for="street">Street</label>
+        <input type="text" class="form-control" name="street" required [(ngModel)]="speaker.street">
+    </div>
+    <div class="form-group">
+        <label for="building">Building No.</label>
+        <input type="number" class="form-control" name="building" required [(ngModel)]="speaker.building">
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="editSpeaker($event)">Submit</button>
+  </form>

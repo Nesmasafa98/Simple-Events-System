@@ -24,7 +24,7 @@ router.put("/speakers/:id",[
     ],
     bcryptPassword.hashPassword
     ,controller.updateSpeaker);
-router.put("speakers/:id/profile",[
+router.put("/speakers/profile/:id",[
     validator.validateEmail,
     validator.validateSpeakerEmailExists,
     validator.validateCity,

@@ -62,11 +62,13 @@ module.exports.getStudentById = (req,res,next)=>{
         throw error;
     }
     //response
-    Student.findOne({_id:req.body.id})
+    Student.findOne({_id:req.params.id})
            .then((data)=>{
-
-                res.status(200).json(data.transform());
-
+            if(!data)
+            {
+                throw new Error("Student not found");
+            }
+            res.status(200).json(data.transform());
            })
            .catch((error)=>{
                next(error);

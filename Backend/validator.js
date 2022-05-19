@@ -13,7 +13,7 @@ module.exports.validateCity = body("city").isAlpha().withMessage("Invalid city")
 
 module.exports.validateStreet = body("street").isAlpha().withMessage("Invalid street");
 
-module.exports.validateBuilding = body("buildingNo").isNumeric().withMessage("Invalid building number");
+module.exports.validateBuilding = body("building").isNumeric().withMessage("Invalid building number");
 
 module.exports.validateTitle = body("title").isAlphanumeric().withMessage("Title must contain alphanumeric characters");
 
@@ -34,7 +34,7 @@ module.exports.validateStudentEmailExists = body("email").custom((value,{req}) =
         })
 });
 
-module.exports.validateSpeakerEmailExists = body("email").custom((value) => {
+module.exports.validateSpeakerEmailExists = body("email").custom((value,{req}) => {
 
     return Speaker.findOne({ email: value })
         .then((data) => {

@@ -29,17 +29,17 @@ export class LoginComponent implements OnInit {
       if(res.role == "Admin")
       {
         sessionStorage.setItem("Token", res.token);
-        this.router.navigateByUrl("/admin");
+        this.router.navigateByUrl("/admin/home");
       }
       else if(res.role == "Student")
       {
         sessionStorage.setItem("Token", res.token);
-        this.router.navigateByUrl("/student");
+        this.router.navigateByUrl("/student/home");
       }
       else if(res.role == "Speaker")
       {
         sessionStorage.setItem("Token", res.token);
-        this.router.navigateByUrl("/speaker");
+        this.router.navigateByUrl("/speaker/home");
       }
     })
   }

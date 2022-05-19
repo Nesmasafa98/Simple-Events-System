@@ -1,1 +1,32 @@
-<p>speaker-list works!</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>City</th>
+            <th>Street</th>
+            <th>Building No.</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let speaker of speakers">
+            <td>{{speaker.id}}</td>
+            <td>{{speaker.username}}</td>
+            <td>{{speaker.email}}</td>
+            <td>{{speaker.city}}</td>
+            <td>{{speaker.street}}</td>
+            <td>{{speaker.building}}</td>
+            <td>
+                <a class="btn btn-success" [routerLink]="['/admin/speakers/details',speaker.id]">Details</a>
+            </td>
+            <td>
+                <a class="btn btn-primary" [routerLink]="['/admin/speakers/edit',speaker.id]">Edit</a>
+            </td>
+            <td>
+                <a class="btn btn-danger" [routerLink]="['/admin/speakers/delete',speaker.id]">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
