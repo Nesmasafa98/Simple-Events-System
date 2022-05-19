@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SpeakerService } from 'src/app/speaker.service';
 
 @Component({
   selector: 'app-speaker-delete',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SpeakerDeleteComponent implements OnInit {
 
-  constructor() { }
+  constructor(public speakerSrv:SpeakerService, public ar:ActivatedRoute, public router:Router) { }
 
   ngOnInit(): void {
+    this.deleteEvent();
   }
 
+  deleteEvent()
+  {
+    this.ar.params.subscribe((param)=>{
+      this.speakerSrv.deleteSpeaker(param['id']).subscribe(res=>{
+        if(res.success)
+        {
+          this.router.navigateByUrl("/admin/speakers");
+        }
+      });
+      })
+  }
 }
