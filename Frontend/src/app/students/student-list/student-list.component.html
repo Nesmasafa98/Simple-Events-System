@@ -1,1 +1,26 @@
-<p>student-list works!</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let student of students">
+            <td>{{student.id}}</td>
+            <td>{{student.username}}</td>
+            <td>{{student.email}}</td>
+            <td>
+                <a class="btn btn-success" [routerLink]="['/admin/students/details',student.id]">Details</a>
+            </td>
+            <td>
+                <a class="btn btn-primary" [routerLink]="['/admin/students/edit',student.id]">Edit</a>
+            </td>
+            <td>
+                <a class="btn btn-danger" [routerLink]="['/admin/students/delete',student.id]">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+

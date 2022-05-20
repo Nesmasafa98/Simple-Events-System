@@ -12,10 +12,10 @@ export class SpeakerDeleteComponent implements OnInit {
   constructor(public speakerSrv:SpeakerService, public ar:ActivatedRoute, public router:Router) { }
 
   ngOnInit(): void {
-    this.deleteEvent();
+    this.deleteSpeaker();
   }
 
-  deleteEvent()
+  deleteSpeaker()
   {
     this.ar.params.subscribe((param)=>{
       this.speakerSrv.deleteSpeaker(param['id']).subscribe(res=>{

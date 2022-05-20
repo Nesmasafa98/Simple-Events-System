@@ -1,1 +1,9 @@
-<p>student-edit works!</p>
+<h3>Edit Student</h3>
+<form>
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <input type="email" class="form-control" name="email" placeholder="Enter Email" required [(ngModel)]="student.email" >
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="editStudent($event)">Submit</button>
+  </form>
+

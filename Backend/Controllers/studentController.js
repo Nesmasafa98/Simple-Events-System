@@ -90,7 +90,7 @@ module.exports.updateStudent = (req,res,next)=>{
         throw error;
     }
     //response  
-    Student.updateOne({_id:req.body.id},{
+    Student.updateOne({_id:req.params.id},{
         $set:{
             email : req.body.email,
             username : req.body.username,
@@ -124,7 +124,7 @@ module.exports.deleteStudent = (req,res,next)=>{
         throw error;
     }
     //response
-    Student.deleteOne({_id:req.body.id})
+    Student.deleteOne({_id:req.params.id})
            .then((data)=>{
 
             if(data.matchedCount == 0)
@@ -152,7 +152,7 @@ module.exports.editStudentPartial = (req,res,next)=>{
         throw error;
     }
     //response
-    Student.updateOne({_id:req.body.id},{
+    Student.updateOne({_id:req.params.id},{
         $set:{
             email : req.body.email,
         }

@@ -30,8 +30,8 @@ export class StudentService {
     return this.http.delete<any>(this.baseUrl + "students/" + id);
   }
 
-  addStudent(data:Student)
+  editStudentProfile(id:number, student:Student, oldEmail:string)
   {
-    return this.http.post<any>(this.baseUrl + "students/", data);
+    return this.http.put<any>(this.baseUrl + "students/profile/" + id, {id:student.id, email:student.email, oldEmail});
   }
 }
